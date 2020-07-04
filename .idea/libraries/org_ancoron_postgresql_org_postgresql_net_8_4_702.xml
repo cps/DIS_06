@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="org.ancoron.postgresql:org.postgresql.net:8.4.702" type="repository">
+    <properties maven-id="org.ancoron.postgresql:org.postgresql.net:8.4.702" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/ancoron/postgresql/org.postgresql.net/8.4.702/org.postgresql.net-8.4.702.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/ancoron/postgresql/org.postgresql.osgi/8.4.702/org.postgresql.osgi-8.4.702.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

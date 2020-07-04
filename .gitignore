@@ -1,0 +1,6 @@
+# Project exclude paths
+/out/
+db.properties
+.idea/dataSources.xml
+.idea/sqldialects.xml
+.idea/vcs.xml
