@@ -10,9 +10,9 @@ public class Main {
         // Delete Database tables
         boolean clearDB = false;
         // Create Dimension and Record tables
-        boolean createSchema = true;
+        boolean createSchema = false;
         // Load Data from CSV file
-        boolean performETL = false;
+        boolean performETL = true;
 
         SchemaManager schemaManager = new SchemaManager();
         DataManager dataManager = new DataManager();

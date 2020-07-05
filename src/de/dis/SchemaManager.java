@@ -13,6 +13,10 @@ public class SchemaManager {
     DbConnectionManager theManager = DbConnectionManager.getInstance();
     ScriptRunner runner = new ScriptRunner(theManager.getConnection(), false, false);
 
+    /**
+     * Creating the database Schemas based on SQL files.
+     * This uses the library ScriptRunner (https://github.com/BenoitDuffez/ScriptRunner) not developed by us.
+     */
      void createSchema(){
         System.out.println("Creating dimension tables");
         String stores_file= "./data/stores-and-products.sql";
