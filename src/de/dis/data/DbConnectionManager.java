@@ -7,6 +7,8 @@ import java.sql.DriverManager;
 import java.util.Properties;
 
 /**
+ * Not our work, copied from Sheet 2.
+ *
  * Einfaches Singleton zur Verwaltung von Datenbank-Verbindungen.
  * 
  * @author Michael von Riegen

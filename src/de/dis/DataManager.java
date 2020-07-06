@@ -1,14 +1,19 @@
 package de.dis;
 
 import de.dis.data.DbConnectionManager;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.IsoFields;
+import java.util.Arrays;
 
 public class DataManager {
     private Connection conn = DbConnectionManager.getInstance().getConnection();
@@ -31,37 +36,52 @@ public class DataManager {
                                     	s.name = ? AND
                                     	a.name = ?;
                             """;
-
-
-
-
-
-    void performETL(){
-        //TODO Parse sales.csv and perform necessary transformations to insert data into sales table
+    PreparedStatement pstmt;
+    {
         try {
-            FileReader fr = new FileReader(file);
-            String line;
-            BufferedReader br = new BufferedReader(fr);
-            br.readLine();
-            while ((line = br.readLine()) != null) {
-                // use comma as separator
-                String[] sale = line.split(";");
-                writeSaleToDB(1,1,1,1,Integer.parseInt(sale[3]), Double.parseDouble(sale[4].replace(',','.')), sale[1], sale[2]);
-                System.out.println(sale);
+            pstmt = conn.prepareStatement(sql);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 
+    /**
+     * Parses CSV file, transforms date and calls function to insert sale into the database
+     */
+    void performETL(){
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate date;
+        try {
+            String line;
+            BufferedReader br = Files.newBufferedReader(Paths.get(file), StandardCharsets.ISO_8859_1);
+            // Skip first line that contains row-titles
+            br.readLine();
+            // Read line by line
+            while ((line = br.readLine()) != null) {
+                String[] sale = line.split(";");
+
+                // Parse date
+                date = LocalDate.parse(sale[0], format);
+
+                // Ignore sale, if it is malformed (= not containing five elements)
+                if (sale.length == 5) {
+                    writeSaleToDB(date.getDayOfMonth(), date.getMonthValue(), date.getYear(), date.get(IsoFields.QUARTER_OF_YEAR), Integer.parseInt(sale[3]), Double.parseDouble(sale[4].replace(',', '.')), sale[1], sale[2]);
+                    System.out.println("Inserted record: " + Arrays.toString(sale));
+                } else {
+                    System.out.println("Record not inserted due to error:" + Arrays.toString(sale));
+                }
             } } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        }
+    }
 
 
 
 
     private void writeSaleToDB(int day, int month, int year, int quarter, int sold, double revenue, String store, String product) {
         try {
-            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, day);
             pstmt.setInt(2, month);
             pstmt.setInt(3, year);
