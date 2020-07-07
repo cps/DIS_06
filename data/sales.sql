@@ -9,3 +9,5 @@ CREATE TABLE sales(
     sold int NOT NULL,
     revenue double precision
 );
+
+CREATE EXTENSION tablefunc;

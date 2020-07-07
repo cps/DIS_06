@@ -1,5 +1,9 @@
 package de.dis;
 
+import de.dis.data.QueryBuilder;
+
+import java.util.HashMap;
+
 public class Main {
 
     SchemaManager schemaManager = new SchemaManager();
@@ -10,7 +14,7 @@ public class Main {
         // Create Dimension and Record tables
         boolean createSchema = false;
         // Load Data from CSV file
-        boolean performETL = true;
+        boolean performETL = false;
 
         SchemaManager schemaManager = new SchemaManager();
         DataManager dataManager = new DataManager();
@@ -27,9 +31,17 @@ public class Main {
             System.out.println("Finished to perform ETL………");
         }
 
-        while (true){
-            //@TODO Set-up input loop for querying data (see second task)
-            return;
+        boolean finished = false;
+
+        while (!finished){
+
+            HashMap parameter = ParameterForm.getParameter();
+
+            TableBuilder tableBuilder = new TableBuilder();
+            tableBuilder.buildTable(parameter);
+
+            if(ParameterForm.readString("New Query? (y/n)").equals("n")){finished = true;}
+
         }
 
 
