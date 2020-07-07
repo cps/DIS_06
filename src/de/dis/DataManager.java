@@ -66,20 +66,25 @@ public class DataManager {
                 // Ignore sale, if it is malformed (= not containing five elements)
                 if (sale.length == 5) {
                     writeSaleToDB(date.getDayOfMonth(), date.getMonthValue(), date.getYear(), date.get(IsoFields.QUARTER_OF_YEAR), Integer.parseInt(sale[3]), Double.parseDouble(sale[4].replace(',', '.')), sale[1], sale[2]);
-                    System.out.println("Inserted record: " + Arrays.toString(sale));
+                    System.out.println("Record added to batch: " + Arrays.toString(sale));
                 } else {
-                    System.out.println("Record not inserted due to error:" + Arrays.toString(sale));
+                    System.out.println("Record not added due to error:" + Arrays.toString(sale));
                 }
-            } } catch (FileNotFoundException e) {
+            }
+            int[] result = pstmt.executeBatch();
+            System.out.println("Inserted number of records: " + result.length);
+
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
     }
 
 
-
-
+    /**
+     * Adds a sale record to the batch for insertion.
+     */
     private void writeSaleToDB(int day, int month, int year, int quarter, int sold, double revenue, String store, String product) {
         try {
             pstmt.setInt(1, day);
@@ -90,10 +95,9 @@ public class DataManager {
             pstmt.setDouble(6, revenue);
             pstmt.setString(7, store);
             pstmt.setString(8, product);
-            int result = pstmt.executeUpdate();
-            System.out.println("Inserted number of records: " + result);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            pstmt.addBatch();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
