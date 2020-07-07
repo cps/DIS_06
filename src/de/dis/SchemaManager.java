@@ -40,9 +40,4 @@ public class SchemaManager {
              throwables.printStackTrace();
          }
     }
-
-     void clearDB(){
-        //TODO Delete Database tables to leave the DB clear for a fresh start
-    }
-
 }

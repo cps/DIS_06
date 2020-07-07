@@ -7,8 +7,6 @@ public class Main {
 
     public static void main(String[] args) {
         // Configuration flags to set-up necessary actions
-        // Delete Database tables
-        boolean clearDB = false;
         // Create Dimension and Record tables
         boolean createSchema = false;
         // Load Data from CSV file
@@ -16,12 +14,6 @@ public class Main {
 
         SchemaManager schemaManager = new SchemaManager();
         DataManager dataManager = new DataManager();
-
-        if (clearDB) {
-            System.out.println("Starting to clear DB………");
-            schemaManager.clearDB();
-            System.out.println("Finished to clear DB………");
-        }
 
         if (createSchema) {
             System.out.println("Starting to create DB………");
