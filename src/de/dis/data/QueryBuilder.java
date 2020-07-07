@@ -16,7 +16,7 @@ public class QueryBuilder {
         geoMap.put("shop", "sh.name");
 
         timeMap.put("year", "s.year");
-        timeMap.put("quarter", "CONCAT((s.month+2)/3)");
+        timeMap.put("quarter", "s.quarter");
         timeMap.put("month", "CASE WHEN (s.month < 10) THEN CONCAT(0,s.month) ELSE CONCAT(s.month) END");
         timeMap.put("day", "CASE WHEN (s.day < 10) THEN CONCAT(0,s.day) ELSE CONCAT(s.day) END");
         timeMap.put("date", "CONCAT(s.year, ''.'', CASE WHEN (s.month < 10) THEN CONCAT(0,s.month) ELSE CONCAT(s.month) END, ''.'', CASE WHEN (s.day < 10) THEN CONCAT(0,s.day) ELSE CONCAT(s.day) END)");
